@@ -1,0 +1,75 @@
+{
+    "first_name": "Jan",
+    "last_name": "Kowalski",
+    "birth_date": "29 AUG 1990",
+    "year_of_study": "2",
+    "courses": {
+        "2013": {
+            "AlgorithmsI": {
+                "grades": {
+                    "exercices": [
+                        2,
+                        4
+                    ],
+                    "lecture": [
+                        2,
+                        5
+                    ]
+                }
+            },
+            "BasicPhysicsI": {
+                "grades": {
+                    "exercices": [
+                        4
+                    ],
+                    "lecture": [
+                        5
+                    ]
+                }
+            },
+            "ProgrammingI": {
+                "grades": {
+                    "exercices": [
+                        4.5
+                    ],
+                    "lecture": [
+                        2,
+                        3.5
+                    ]
+                }
+            }
+        },
+        "2014": {
+            "ProgrammingII": {
+                "grades": {
+                    "exercices": [
+                        5
+                    ],
+                    "lecture": [
+                        5
+                    ]
+                }
+            },
+            "BasicPhysicsII": {
+                "grades": {
+                    "exercices": [
+                        5
+                    ],
+                    "lecture": [
+                        5
+                    ]
+                }
+            },
+            "AlgorithmsII": {
+                "grades": {
+                    "exercices": [
+                        5
+                    ],
+                    "lecture": [
+                        5
+                    ]
+                }
+            }
+        }
+    }
+}
