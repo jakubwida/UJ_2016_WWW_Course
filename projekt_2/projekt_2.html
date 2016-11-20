@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<head>
+<meta charset="UTF-8">
+</head>
+<link rel="stylesheet" type="text/css" href="general_style.css">
+<script src="../JQuery/jquery-3.1.1.js"></script>
+<script src="../JQuery/jquery.tablesorter.js"></script>
+<script src="projekt_2_script.js"></script> 
+
+
+</head>
+<body>
+	<div class="glowny_tekst">
+	<h1>Projekt 2: JavaScript</h1>
+
+	<div class="lista_menu">
+		<ul>
+			<li><a href="../index.html">Projekt 1</a></li>
+		  	<li><a href="../projekt_2/projekt_2.html">Projekt 2</a></li>
+		  	<li><a href="../projekt_3/projekt_3.html">Projekt 3</a></li>
+			<li><a href="../kontakt/kontakt.html">Kontakt</a></li>
+
+
+		</ul> 
+	</div>
+
+
+	<h3>Pierwszy przykład JavaScript</h3>
+	<p>Wciśnij poniższy przycisk aby uzyskać alert.</p>
+	<button class="przycisk" type="button" onclick="button_1()"> alert</button>
+	<h3>Drugi przykład JavaScript</h3>
+	<p>Wciśnij poniższe przyciski aby zmienić kolor tła.</p>
+
+		<div id="przyklad_2" class="przyklad_centrowany">
+
+		
+		<button style="background-color:red" class="przycisk" type="button" onclick="button_red()"> Czerwony</button>
+		<button style="background-color:green" class="przycisk" type="button" onclick="button_green()"> Zielony</button>
+		<button style="background-color:blue" class="przycisk" type="button" onclick="button_blue()"> Niebieski</button>
+		</div>
+		<div class="prosta_tabela">
+		<h3> Tabelka która daje się sortować:</h3>
+			<table id="myTable" class="tablesorter">
+			  <thead>
+			    <tr>
+			      <th>Last Name</th>
+			      <th>First Name</th>
+			      <th>Email</th>
+			      <th>Due</th>
+			      <th>Web Site</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			    <tr>
+			      <td>Smith</td>
+			      <td>John</td>
+			      <td>jsmith@gmail.com</td>
+			      <td>$50.00</td>
+			      <td>http://www.jsmith.com</td>
+			    </tr>
+			    <tr>
+			      <td>Bach</td>
+			      <td>Frank</td>
+			      <td>fbach@yahoo.com</td>
+			      <td>$50.00</td>
+			      <td>http://www.frank.com</td>
+			    </tr>
+			    <tr>
+			      <td>Doe</td>
+			      <td>Jason</td>
+			      <td>jdoe@hotmail.com</td>
+			      <td>$100.00</td>
+			      <td>http://www.jdoe.com</td>
+			    </tr>
+			    <tr>
+			      <td>Conway</td>
+			      <td>Tim</td>
+			      <td>tconway@earthlink.net</td>
+			      <td>$50.00</td>
+			      <td>http://www.timconway.com</td>
+			    </tr>
+			  </tbody>
+			</table>
+		
+		</div>
+	</div>
+
+
+	
+</body>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<head>
+<meta charset="UTF-8">
+
+	<style>
+	.lista_menu {font-size:20px}
+	.lista_menu ul{list-style-type:none; overflow:hidden; background-color:rgb(10,10,10); padding:10px;}
+	.lista_menu li {float:left;}
+	.lista_menu li a { disply:block;color:white; text:align:center; padding:10px; text-decoration:none;}
+	
+	.lista_menu li a:hover{background-color:rgb(150,150,150)}
+
+	.glowny_tekst{ background-color: rgb(220,220,220); margin:auto; max-width:800px; padding:10px;}
+	.glowny_tekst img {display: block; margin:auto;max-width:80%;}
+	</style>
+
+
+</head>
+<body style="">
+	
+	<div class="glowny_tekst">
+	<h1>Pierwszy projekt: wizytówka</h1>
+	<p>Jakub Wida</p>
+	
+
+		<div class="lista_menu">
+			<ul>
+		  		<li><a href="podstrona_1.html">podstrona_1</a></li>
+		  		<li><a href="podstrona_2.html">podstrona_2</a></li>
+		  		<li><a href="podstrona_3.html">podstrona_3</a></li>
+				<li><a href="kontakt.html">kontakt</a></li>
+			</ul> 
+			</div>
+	<h2>Lorem ipsum</h2>
+	<h3>dolor sit amet,</h3>
+	<p>consectetur adipiscing elit. Nunc at lobortis libero, ac pellentesque odio. Suspendisse sollicitudin elementum venenatis. Ut eleifend, libero viverra sagittis fermentum, nisi sem bibendum turpis, non iaculis orci turpis id nisl. In hac habitasse platea dictumst. Phasellus ac venenatis arcu, nec ultrices lacus. Sed eu lectus ac sem convallis efficitur sed vitae eros. Pellentesque vitae lobortis dolor. </p>
+	<h3>Nullam gravida magna velit, quis suscipit ex mollis in.</h3>
+	<p>Donec sit amet semper augue, nec facilisis felis. Morbi semper, magna sed dapibus laoreet, mauris massa lacinia sapien, sed feugiat turpis ex eu felis. In in venenatis lacus, posuere egestas dolor. Nam a tincidunt quam. Nam porta tempus ante, quis ultrices neque pretium et. In cursus nisl lorem, elementum suscipit augue ullamcorper a. Duis maximus nulla enim, sit amet viverra augue facilisis eu. Vivamus non arcu fermentum lacus imperdiet mattis. Sed in lacus vel est finibus convallis. Suspendisse sodales, odio quis pretium vestibulum, quam arcu porta sapien, nec ultricies nibh ante maximus nibh. Nulla dictum ligula vel felis bibendum, posuere aliquam ante elementum. Suspendisse lacus enim, vulputate quis consequat in, ultricies eu eros. </p>
+	<h3>Duis at elementum sapien.</h3>
+	<p>Donec consectetur vehicula sapien id sollicitudin. Vivamus eget velit sodales, auctor mi at, lacinia sem. Donec tempus elementum sapien, quis imperdiet ipsum placerat id. Donec facilisis sit amet eros ac suscipit. Curabitur consectetur quam ac sem tincidunt, euismod ultrices lorem convallis. Nulla facilisi. Nullam quis lacinia augue. Curabitur non congue quam. Fusce eu justo bibendum tortor cursus volutpat at non leo. Etiam at rutrum metus. Donec lacinia lobortis ipsum vitae facilisis. Curabitur elementum scelerisque egestas. </p>
+	<img src="mandarynka.jpg">
+	<h3>Nullam imperdiet, libero eget lobortis tincidunt,</h3>
+	<p>orci lectus placerat tortor, eu iaculis velit diam id risus. Nam viverra ex mi, ut pretium nibh dapibus sed. Sed vel faucibus justo. Sed pellentesque varius mi, ut rutrum ligula vestibulum eu. Curabitur laoreet, metus sed placerat molestie, dolor sapien lacinia elit, a consequat nulla neque ut neque. Cras volutpat in tellus lacinia dictum. Fusce pretium feugiat dolor. Duis vel velit vitae urna iaculis malesuada quis rhoncus metus. Nullam tempus, leo quis interdum pretium, augue tortor suscipit lorem, nec placerat sapien sapien non turpis. Mauris cursus libero in purus ultricies, quis eleifend tellus porta. Nam et nisl auctor, bibendum felis a, rhoncus tortor. <p3>
+	</div>
+
+</body>
