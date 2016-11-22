@@ -3,6 +3,7 @@
     "last_name": "Kowalski",
     "birth_date": "29 AUG 1990",
     "year_of_study": "2",
+    "index":"1013061",
     "courses": {
         "2013": {
             "AlgorithmsI": {

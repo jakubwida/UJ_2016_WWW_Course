@@ -1,0 +1,76 @@
+{
+    "first_name": "Zbigniew",
+    "last_name": "Arbuz",
+    "birth_date": "07 JUN 1990",
+    "year_of_study": "2",
+    "index":"1213400",
+    "courses": {
+        "2013": {
+            "AlgorithmsI": {
+                "grades": {
+                    "exercices": [
+                        5,
+                        5
+                    ],
+                    "lecture": [
+                        3,
+                        5
+                    ]
+                }
+            },
+            "BasicPhysicsI": {
+                "grades": {
+                    "exercices": [
+                        2
+                    ],
+                    "lecture": [
+                        5
+                    ]
+                }
+            },
+            "ProgrammingI": {
+                "grades": {
+                    "exercices": [
+                        3.5
+                    ],
+                    "lecture": [
+                        2,
+                        4
+                    ]
+                }
+            }
+        },
+        "2014": {
+            "ProgrammingII": {
+                "grades": {
+                    "exercices": [
+                        3
+                    ],
+                    "lecture": [
+                        2
+                    ]
+                }
+            },
+            "BasicPhysicsII": {
+                "grades": {
+                    "exercices": [
+                        5
+                    ],
+                    "lecture": [
+                        3
+                    ]
+                }
+            },
+            "AlgorithmsII": {
+                "grades": {
+                    "exercices": [
+                        4
+                    ],
+                    "lecture": [
+                        5
+                    ]
+                }
+            }
+        }
+    }
+}

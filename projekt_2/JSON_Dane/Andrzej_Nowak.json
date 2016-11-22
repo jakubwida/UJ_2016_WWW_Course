@@ -1,40 +1,41 @@
 {
-    "first_name": "Jan",
-    "last_name": "Kowalski",
-    "birth_date": "29 AUG 1990",
-    "year_of_study": "2",
+    "first_name": "Andrzej",
+    "last_name": "Nowak",
+    "birth_date": "13 SEP 1991",
+    "year_of_study": "1",
+    "index":"1113465",
     "courses": {
         "2013": {
-            "AlgorithmsI": {
+            "MathI": {
                 "grades": {
                     "exercices": [
-                        2,
+                        3,
                         4
                     ],
                     "lecture": [
                         2,
-                        5
+                        4
                     ]
                 }
             },
             "BasicPhysicsI": {
                 "grades": {
                     "exercices": [
-                        4
+                        2
                     ],
                     "lecture": [
-                        5
+                        3
                     ]
                 }
             },
             "ProgrammingI": {
                 "grades": {
                     "exercices": [
-                        4.5
+                        3.5
                     ],
                     "lecture": [
                         2,
-                        3.5
+                        4.5
                     ]
                 }
             }
@@ -53,17 +54,17 @@
             "BasicPhysicsII": {
                 "grades": {
                     "exercices": [
-                        5
+                        4
                     ],
                     "lecture": [
                         5
                     ]
                 }
             },
-            "AlgorithmsII": {
+            "MathII": {
                 "grades": {
                     "exercices": [
-                        5
+                        2
                     ],
                     "lecture": [
                         5
