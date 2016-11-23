@@ -38,7 +38,7 @@
 		<button style="background-color:green" class="przycisk" type="button" onclick="button_green()"> Zielony</button>
 		<button style="background-color:blue" class="przycisk" type="button" onclick="button_blue()"> Niebieski</button>
 		</div>
-		<div>
+		<div class="prosta_tabela">
 		<h3> Tabelka która daje się sortować:</h3>
 			<table id="myTable" class="tablesorter">
 			  <thead>
@@ -83,6 +83,10 @@
 			</table>
 		
 		</div>
+	<h3>Tabelka obiektów z JSON: studenci</h3>
+		<p>Wciśnij poniższy przycisk aby przeczytac.</p>
+		<button class="przycisk" type="button" onclick="readJSONfile()"> json</button>
+		<div id ="table_print"></div>
 	</div>
 
 

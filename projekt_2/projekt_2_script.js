@@ -208,12 +208,59 @@ function Helper()
 			});
 		return total/proper_courses.length;
 		};
+	
+	this.createHTMLTableRow = function(student_obj)
+		{
+		var row ="<tr>"
+		$.each(student_obj,function(key,value)
+			{
+			if(value !="[object Object]")
+				{
+				row = row+"<td>"+value+"</td>"
+				}
+			});
+		row = row+"</tr>"
+		return row
+		};
+	this.createHTMLTable = function(student_array)
+		{
+		var self=this;
+		var out ="<table>";
+		var firstEntry= student_array[0];
+		var row ="<tr>"
+
+		$.each(firstEntry,function(key,value)
+			{
+			if(value !="[object Object]")
+				{
+				row = row+"<th>"+key+"</th>"
+				}
+			});
+		row = row+"</tr>"
+		out = out+row;
+
+		$.each(student_array,function(key,value)
+			{
+			out=out + self.createHTMLTableRow(value);
+			});
+		return out+"</table>";
+
+		};
+		
 	}
+
+
+	//co trzeba zrobic: proste menu ktore bedzie decydowac co bedzie wypisane
+	//bedzie ono wypluwalo prosta tabelke w zaleznosci od zadanych warunkow
+	//typu: wyswietl srednia dla roku
+	//wyswietl studentow majacych algorytmy
+	//takie cos, co uzywa tych wcesniejszych funkcji
+	
 
 
 $(document).ready(function() 
     { 
-        $("#myTable").tablesorter(); 
+        $("#myTable").tablesorter();
 
 	var obj1=getObjectFromJSON("JSON_Dane/Jan_Kowalski.json");
 	var obj2=getObjectFromJSON("JSON_Dane/Andrzej_Nowak.json");
@@ -227,7 +274,13 @@ $(document).ready(function()
 	//console.log(helper.getStudentListForCourse(student_array,"2013","AlgorithmsI")[0]);
 	//console.log(helper.getAverageForStudentInYear(obj1,"2013"));
 	//console.log(helper.getAverageForStudentAllYears(obj1));
-	console.log(helper.getAverageForCourse(student_array,"2013","AlgorithmsI"));
+	//console.log(helper.getAverageForCourse(student_array,"2013","AlgorithmsI"));
+
+
+	
+	console.log(helper.createHTMLTable(student_array));
+	document.getElementById("table_print").innerHTML =helper.createHTMLTable(student_array)
+	
 
 	//helper.getStudentListForCourse(student_array,"2013","AlgorithmsI");
 	//console.log(new_array[0].last_name);
