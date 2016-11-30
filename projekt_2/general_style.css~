@@ -23,3 +23,20 @@
 	.lista_menu ul {}
 	
 	}
+
+.dropdown ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	background: #1bc2a2;		
+	}
+
+.dropdown li {
+	display: block;
+	position: relative;
+	float: left;
+	background: #1bc2a2;
+	}
+
+
+

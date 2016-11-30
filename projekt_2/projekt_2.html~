@@ -84,9 +84,23 @@
 		
 		</div>
 	<h3>Tabelka obiektów z JSON: studenci</h3>
-		<p>Wciśnij poniższy przycisk aby przeczytac.</p>
-		<button class="przycisk" type="button" onclick="readJSONfile()"> json</button>
+		
 		<div id ="table_print"></div>
+		<div class ="dropdown">
+		<ul>
+			<li>"1"</li>
+			<ul>
+				<li>"1.1"</li>
+				<li>"1.2"</li>
+				<ul>
+					<li>"1.2.1"</li>
+					<li>"1.2.2"</li>
+				</ul>
+
+			</ul>
+			<li>"2"</li>
+		</ul>
+		</div>
 	</div>
 
 

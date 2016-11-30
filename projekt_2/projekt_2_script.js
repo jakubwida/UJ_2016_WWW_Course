@@ -22,7 +22,6 @@ document.getElementById("przyklad_2").style.backgroundColor="blue";
 
 
 
-
 function getObjectFromJSON(filename)
 	{
 	var output;
@@ -208,9 +207,45 @@ function Helper()
 			});
 		return total/proper_courses.length;
 		};
+	this.createSubjectRow = function(subject)
+		{
+		var row =""
+			$.each(subject,function(key,value)
+				{
+				row = row+"<td>"+key+value+"</td>"
+				}
+			);
+		return row;
+		};
+	this.createYearRow = function(year)
+		{
+		var self=this;
+		var row =""
+			$.each(year,function(key,value)
+				{
+				row = row+"<td>"+key+self.createSubjectRow(value)+"</td>"
+				}
+			);
+		return row;
+		};
+
+	this.createCourseRow = function(course_obj)
+		{
+		var self=this;
+		var row =""
+		$.each(course_obj,function(key,value)
+			{
+			row = row+"<td>"+key+self.createYearRow(value)+"</td>"
+			}
+		);
+		return row;	
+		};
+	
+
 	
 	this.createHTMLTableRow = function(student_obj)
 		{
+		var self=this;
 		var row ="<tr>"
 		$.each(student_obj,function(key,value)
 			{
@@ -218,10 +253,16 @@ function Helper()
 				{
 				row = row+"<td>"+value+"</td>"
 				}
+			else
+				{
+				row = row+"<td>"+self.createCourseRow(value)+"</td>"
+				}
 			});
 		row = row+"</tr>"
 		return row
 		};
+	
+
 	this.createHTMLTable = function(student_array)
 		{
 		var self=this;
@@ -231,7 +272,7 @@ function Helper()
 
 		$.each(firstEntry,function(key,value)
 			{
-			if(value !="[object Object]")
+			//if(value !="[object Object]")
 				{
 				row = row+"<th>"+key+"</th>"
 				}
@@ -243,6 +284,10 @@ function Helper()
 			{
 			out=out + self.createHTMLTableRow(value);
 			});
+
+		
+		
+
 		return out+"</table>";
 
 		};
