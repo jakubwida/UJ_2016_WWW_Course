@@ -402,9 +402,9 @@ function Database(student_array)
 		out= out+courses;
 
 		var grades="<li>oceny <ul>";
-		grades=grades+"<li><label class='cwiczenia'><input type='checkbox'>cwiczenia</label></li>";
-		grades=grades+"<li><label class='cwiczenia'><input type='checkbox'>wyklad</label></li>";
-		grades=grades+"<li><label class='cwiczenia'><input type='checkbox'>srednia</label></li>";
+		grades=grades+"<li><label class='grade'><input type='checkbox'>cwiczenia</label></li>";
+		grades=grades+"<li><label class='grade'><input type='checkbox'>wyklad</label></li>";
+		grades=grades+"<li><label class='grade'><input type='checkbox'>srednia</label></li>";
 		grades=grades+"</ul></li>"
 		out= out+grades;		
 
@@ -412,15 +412,47 @@ function Database(student_array)
 		out=out+"</ul>"
 		return out;
 		};
+
+
+	this.get_all_courses_in_year = function(student_list, year)
+		{
+		course_list=[];
+		$.each(student_list,function(key,value)
+			{
+			students_courses=value.courses[year];
+			$.each(students_courses, function(i, element)
+						{
+    						if($.inArray(i, course_list) === -1) course_list.push(i);
+						});
+			});
+		return course_list;
+		};
+
 	//zjada (po id) stworzony wczesniej obiekt, tworzy tabelke z danymi
 	this.reap_polling_object = function(object_id)
 		{
-		list_items = $("#"+object_id+" .year");
-		console.log(list_items);
+		year_list = $.makeArray($("#"+object_id+" .year").map(function()
+			{return this.textContent;}));
 		
+
+		console.log(year_list);
+
+
+
+		course_list = $.makeArray($("#"+object_id+" .course").map(function()
+			{return this.textContent;}));
+		console.log(course_list);
+		grade_list = $.makeArray($("#"+object_id+" .grade").map(function()
+			{return this.textContent;}));
+		console.log(grade_list);	
+
+		//todo: cos co tworzy tabele wg listy przedmiotow u wszystich studentow na roku
+		//potem wpisuje do niej wiersze poszczegolnych stuentow tak jak w zeszyciku
+		
+	
 		//almost works
 		};
-
+	
 	}
 
 
@@ -449,17 +481,18 @@ $(document).ready(function()
 
 	
 	//console.log(helper.createHTMLTable(student_array));
-	document.getElementById("table_print").innerHTML =helper.createHTMLTable(student_array)
+	//document.getElementById("table_print").innerHTML =helper.createHTMLTable(student_array)
 	
 	var database = new Database(student_array);
-	console.log(database.get_attributes("first_name"));
-	console.log(database.get_years());
-	console.log(database.get_course_names());
-	console.log(database.create_asker_object());
+	//console.log(database.get_attributes("first_name"));
+	//console.log(database.get_years());
+	//console.log(database.get_course_names());
+	//console.log(database.create_asker_object());
 
 	document.getElementById("outputable").innerHTML =database.create_asker_object();
 	database.reap_polling_object("outputable");
-
+	//database.see_if_student_has_course_in_year(obj1,"2013","b");
+	console.log(database.get_all_courses_in_year(student_array,"2013"));
 	//helper.getStudentListForCourse(student_array,"2013","AlgorithmsI");
 	//console.log(new_array[0].last_name);
     } 
