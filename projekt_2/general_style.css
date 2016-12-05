@@ -29,3 +29,12 @@
 display:none;
 }
 
+
+
+.input_box{ border-style:solid;}
+.input_box li{   float:left; margin:2px;}
+.input_box ul{list-style-type:none; overflow:hidden; margin:0px;padding:0px;}
+.input_box table{border-collapse: collapse; disaply:block; border-style:hidden;}
+.input_box table td, table th{border:1px solid black;}
+.input_box p{padding:0px; margin:0px}
+.input_box label{display:block}

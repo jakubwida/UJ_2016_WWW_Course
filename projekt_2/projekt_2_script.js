@@ -22,6 +22,12 @@ document.getElementById("przyklad_2").style.backgroundColor="blue";
 
 
 
+
+
+
+
+
+
 function getObjectFromJSON(filename)
 	{
 	var output;
@@ -34,6 +40,7 @@ function getObjectFromJSON(filename)
 	$.ajaxSetup({async: true});	
 	return output;
 	}
+
 
 
 function Helper()
@@ -303,6 +310,124 @@ function Helper()
 	
 
 
+
+
+
+
+function Database(student_array)
+	{
+	var self=this;
+	this.student_array=student_array;
+	this.get_attributes=function(attr_name)
+		{
+		output=[];
+		$.each(student_array,function(index,value)
+			{
+			output.push(value[attr_name]);
+			});
+		return output;
+		};
+	this.get_years=function()
+		{
+		output=[];
+		var helper = new Helper()
+		$.each(student_array,function(index,value)
+			{
+			var yearlist = helper._getCourseYearList(value);
+			$.each(yearlist, function(i, element)
+				{
+    				if($.inArray(element, output) === -1) output.push(element);
+				});	
+			});
+		return output;
+		};
+	this.get_course_names=function()
+		{
+		output=[];
+		var helper = new Helper()
+		$.each(student_array,function(index,value)
+			{
+			
+			$.each(value["courses"],function(key,value2)
+				{
+					$.each(value2, function(i, element)
+						{
+    						if($.inArray(i, output) === -1) output.push(i);
+						});
+				});
+	
+			});
+		return output;
+		};
+	this.get_course_names=function()
+		{
+		output=[];
+		var helper = new Helper()
+		$.each(student_array,function(index,value)
+			{
+			
+			$.each(value["courses"],function(key,value2)
+				{
+					$.each(value2, function(i, element)
+						{
+    						if($.inArray(i, output) === -1) output.push(i);
+						});
+				});
+	
+			});
+		return output;
+		};
+	//tworzy htmlowy obiekt z checkboxami na lata studentow itp
+	this.create_asker_object = function()
+		{
+		var out ="<ul>";
+
+	
+		var year_list = self.get_years();
+		var year="<li>lata <ul>";
+		$.each(year_list,function(index,value)
+			{
+			year=year+"<li><label class='year'><input type='checkbox'>"+value+"</label></li>";
+			});
+		year=year+"</ul></li>"
+		out= out+year;
+	
+		var course_list = self.get_course_names();
+		var courses="<li>kursy <ul>";
+		$.each(course_list,function(index,value)
+			{
+			courses=courses+"<li><label class='course'><input type='checkbox'>"+value+"</label></li>";
+			});
+		courses=courses+"</ul></li>"
+		out= out+courses;
+
+		var grades="<li>oceny <ul>";
+		grades=grades+"<li><label class='cwiczenia'><input type='checkbox'>cwiczenia</label></li>";
+		grades=grades+"<li><label class='cwiczenia'><input type='checkbox'>wyklad</label></li>";
+		grades=grades+"<li><label class='cwiczenia'><input type='checkbox'>srednia</label></li>";
+		grades=grades+"</ul></li>"
+		out= out+grades;		
+
+		
+		out=out+"</ul>"
+		return out;
+		};
+	//zjada (po id) stworzony wczesniej obiekt, tworzy tabelke z danymi
+	this.reap_polling_object = function(object_id)
+		{
+		list_items = $("#"+object_id+" .year");
+		console.log(list_items);
+		
+		//almost works
+		};
+
+	}
+
+
+
+
+
+
 $(document).ready(function() 
     { 
         $("#myTable").tablesorter();
@@ -323,13 +448,25 @@ $(document).ready(function()
 
 
 	
-	console.log(helper.createHTMLTable(student_array));
+	//console.log(helper.createHTMLTable(student_array));
 	document.getElementById("table_print").innerHTML =helper.createHTMLTable(student_array)
 	
+	var database = new Database(student_array);
+	console.log(database.get_attributes("first_name"));
+	console.log(database.get_years());
+	console.log(database.get_course_names());
+	console.log(database.create_asker_object());
+
+	document.getElementById("outputable").innerHTML =database.create_asker_object();
+	database.reap_polling_object("outputable");
 
 	//helper.getStudentListForCourse(student_array,"2013","AlgorithmsI");
 	//console.log(new_array[0].last_name);
     } 
 ); 
+
+
+
+
 
 
