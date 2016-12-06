@@ -427,7 +427,29 @@ function Database(student_array)
 			});
 		return course_list;
 		};
+	this.students_grades_to_table_row= function(student,year,course,do_exercises,do_lectures,do_average)
+		{
+		var mini_help=function(argument)
+			{
 
+			if(argument.length==2)
+				{return "<td>"+argument[0]+","+argument[1]+"</td>";}
+			else
+				{return"<td>"+argument+"</td>";}
+			};
+		out ="";	
+		grades = student.courses[year][course].grades;
+		if(do_exercises)
+			{
+			out = out+mini_help(grades.exercices);
+			}
+		if(do_lectures)
+			{
+			out = out+mini_help(grades.lecture);
+			}
+
+		return out;	
+		};
 	//zjada (po id) stworzony wczesniej obiekt, tworzy tabelke z danymi
 	this.reap_polling_object = function(object_id)
 		{
@@ -445,6 +467,20 @@ function Database(student_array)
 		grade_list = $.makeArray($("#"+object_id+" .grade").map(function()
 			{return this.textContent;}));
 		console.log(grade_list);	
+
+
+		//todo- poczatek
+		$.each(year_list,function(index,value)
+			{
+			course_list = self.get_all_courses_in_year(self.student_array,value);
+			$.each(course_list,function(index_2,value_2)
+				{
+					//students_grades_to_table_row -> tworz abele ktora tutaj wpada
+					//TODO
+				
+				});			
+			});
+		//todo- koniec
 
 		//todo: cos co tworzy tabele wg listy przedmiotow u wszystich studentow na roku
 		//potem wpisuje do niej wiersze poszczegolnych stuentow tak jak w zeszyciku
@@ -488,6 +524,9 @@ $(document).ready(function()
 	//console.log(database.get_years());
 	//console.log(database.get_course_names());
 	//console.log(database.create_asker_object());
+
+	console.log(database.students_grades_to_table_row(obj1,"2013","BasicPhysicsI",1,1,1));
+
 
 	document.getElementById("outputable").innerHTML =database.create_asker_object();
 	database.reap_polling_object("outputable");
