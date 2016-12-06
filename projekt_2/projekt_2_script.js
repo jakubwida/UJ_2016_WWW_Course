@@ -427,17 +427,23 @@ function Database(student_array)
 			});
 		return course_list;
 		};
+	
 	this.students_grades_to_table_row= function(student,year,course,do_exercises,do_lectures,do_average)
 		{
+		//console.log("ayayay:"+student.last_name,year,course );
 		var mini_help=function(argument)
 			{
-
-			if(argument.length==2)
+			if (argument==null)
+				{return "<td></td>"}
+			else if(argument.length==2)
 				{return "<td>"+argument[0]+","+argument[1]+"</td>";}
 			else
 				{return"<td>"+argument+"</td>";}
 			};
-		out ="";	
+		out ="";
+		if(typeof student.courses[year][course] === 'undefined')
+			{grades.exercises =null; grades.lecture=null;}
+		else
 		grades = student.courses[year][course].grades;
 		if(do_exercises)
 			{
@@ -467,23 +473,63 @@ function Database(student_array)
 		grade_list = $.makeArray($("#"+object_id+" .grade").map(function()
 			{return this.textContent;}));
 		console.log(grade_list);	
+		
+		number_of_final_cols=2;
+		
+		
 
-
+		
+		
 		//todo- poczatek
+		var out="<table><thead></thead> <tbody>"
+		var year_row="<tr>";
+		var course_row="<tr>";
+		var student_rows=[];
+		
+		$.each(self.student_array,function(index,value)
+					{
+					student_rows.push("<tr>");
+					//console.log("what"+value.last_name);
+					});
+		
 		$.each(year_list,function(index,value)
 			{
+			
 			course_list = self.get_all_courses_in_year(self.student_array,value);
+			year_row = year_row+"<td colspan='"+course_list.length*number_of_final_cols+"'>"+value+"</td>";
 			$.each(course_list,function(index_2,value_2)
 				{
 					//students_grades_to_table_row -> tworz abele ktora tutaj wpada
-					//TODO
-				
+				course_row= course_row+"<td colspan='"+number_of_final_cols+"'>"+value_2+"</td>"
+				$.each(self.student_array,function(index_3,value_3)
+					{
+					student_rows[index_3]=student_rows[index_3]+self.students_grades_to_table_row(value_3,value,value_2,1,1,0);
+					//console.log(student_rows[index_3]);
+					});
 				});			
 			});
+		
+		//console.log(student_rows);
+		year_row=year_row+"</tr>";
+		course_row=course_row+"</tr>";
+		
+		out = out + year_row;
+		out = out + course_row;
+		$.each(student_rows,function(index,value)
+			{
+			console.log("watu fuko "+value);
+			out=out+value+"</tr>";
+			});
+
+
+		out =out+"</tbody></table>"
+		return out;
 		//todo- koniec
 
-		//todo: cos co tworzy tabele wg listy przedmiotow u wszystich studentow na roku
-		//potem wpisuje do niej wiersze poszczegolnych stuentow tak jak w zeszyciku
+		//todo: to jest bliskie dzialania. jedyny problem ktory nie jest ozwiazany:
+		//nie wiadomo jak dokladnie zorganizowac przyciski tak zeby przynajmniej 
+		//jeden byl wcisniety (te co do wybierania czy to lecture excercise czy srednia)
+		//no i podpisy jeszcze, ale to prawie bangla
 		
 	
 		//almost works
@@ -525,13 +571,14 @@ $(document).ready(function()
 	//console.log(database.get_course_names());
 	//console.log(database.create_asker_object());
 
-	console.log(database.students_grades_to_table_row(obj1,"2013","BasicPhysicsI",1,1,1));
+	//console.log(database.students_grades_to_table_row(obj1,"2013","BasicPhysicsI",1,0,0));
 
 
 	document.getElementById("outputable").innerHTML =database.create_asker_object();
-	database.reap_polling_object("outputable");
+	console.log(database.reap_polling_object("outputable"));
+	document.getElementById("proper_output_table").innerHTML =database.reap_polling_object("outputable");
 	//database.see_if_student_has_course_in_year(obj1,"2013","b");
-	console.log(database.get_all_courses_in_year(student_array,"2013"));
+	//console.log(database.get_all_courses_in_year(student_array,"2013"));
 	//helper.getStudentListForCourse(student_array,"2013","AlgorithmsI");
 	//console.log(new_array[0].last_name);
     } 
