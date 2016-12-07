@@ -21,7 +21,25 @@ document.getElementById("przyklad_2").style.backgroundColor="blue";
 	}
 
 
+function intersect_safe(a, b)
+{
+  var ai=0, bi=0;
+  var result = [];
 
+  while( ai < a.length && bi < b.length )
+  {
+     if      (a[ai] < b[bi] ){ ai++; }
+     else if (a[ai] > b[bi] ){ bi++; }
+     else /* they're equal */
+     {
+       result.push(a[ai]);
+       ai++;
+       bi++;
+     }
+  }
+
+  return result;
+}
 
 
 
@@ -387,7 +405,7 @@ function Database(student_array)
 		var year="<li>lata <ul>";
 		$.each(year_list,function(index,value)
 			{
-			year=year+"<li><label class='year'><input type='checkbox'>"+value+"</label></li>";
+			year=year+"<li><label class='year'><input type='checkbox' checked>"+value+"</label></li>";
 			});
 		year=year+"</ul></li>"
 		out= out+year;
@@ -396,15 +414,15 @@ function Database(student_array)
 		var courses="<li>kursy <ul>";
 		$.each(course_list,function(index,value)
 			{
-			courses=courses+"<li><label class='course'><input type='checkbox'>"+value+"</label></li>";
+			courses=courses+"<li><label class='course'><input type='checkbox' checked>"+value+"</label></li>";
 			});
 		courses=courses+"</ul></li>"
 		out= out+courses;
 
 		var grades="<li>oceny <ul>";
-		grades=grades+"<li><label class='grade'><input type='checkbox'>cwiczenia</label></li>";
-		grades=grades+"<li><label class='grade'><input type='checkbox'>wyklad</label></li>";
-		grades=grades+"<li><label class='grade'><input type='checkbox'>srednia</label></li>";
+		grades=grades+"<li><label class='grade'><input type='checkbox' checked>cwiczenia</label></li>";
+		grades=grades+"<li><label class='grade'><input type='checkbox' checked>wyklad</label></li>";
+		grades=grades+"<li><label class='grade'><input type='checkbox' checked>srednia</label></li>";
 		grades=grades+"</ul></li>"
 		out= out+grades;		
 
@@ -416,7 +434,7 @@ function Database(student_array)
 
 	this.get_all_courses_in_year = function(student_list, year)
 		{
-		course_list=[];
+		var course_list=[];
 		$.each(student_list,function(key,value)
 			{
 			students_courses=value.courses[year];
@@ -460,7 +478,10 @@ function Database(student_array)
 	this.reap_polling_object = function(object_id)
 		{
 		year_list = $.makeArray($("#"+object_id+" .year").map(function()
-			{return this.textContent;}));
+			{
+			if(this.childNodes[0].checked)
+				{return this.textContent;}
+			}));
 		
 
 		console.log(year_list);
@@ -468,10 +489,16 @@ function Database(student_array)
 
 
 		course_list = $.makeArray($("#"+object_id+" .course").map(function()
-			{return this.textContent;}));
+			{
+			if(this.childNodes[0].checked)
+				{return this.textContent;}
+			}));
 		console.log(course_list);
 		grade_list = $.makeArray($("#"+object_id+" .grade").map(function()
-			{return this.textContent;}));
+			{
+			if(this.childNodes[0].checked)
+				{return this.textContent;}
+			}));
 		console.log(grade_list);	
 		
 		number_of_final_cols=2;
@@ -494,10 +521,18 @@ function Database(student_array)
 		
 		$.each(year_list,function(index,value)
 			{
-			
-			course_list = self.get_all_courses_in_year(self.student_array,value);
-			year_row = year_row+"<td colspan='"+course_list.length*number_of_final_cols+"'>"+value+"</td>";
-			$.each(course_list,function(index_2,value_2)
+			console.log("pre course list:"+course_list);
+			year_course_list = self.get_all_courses_in_year(self.student_array,value);
+
+
+
+			result_course_list=intersect_safe(year_course_list,course_list);
+
+
+			console.log("course list:"+result_course_list);
+
+			year_row = year_row+"<td colspan='"+result_course_list.length*number_of_final_cols+"'>"+value+"</td>";
+			$.each(result_course_list,function(index_2,value_2)
 				{
 					//students_grades_to_table_row -> tworz abele ktora tutaj wpada
 				course_row= course_row+"<td colspan='"+number_of_final_cols+"'>"+value_2+"</td>"
@@ -538,8 +573,12 @@ function Database(student_array)
 	}
 
 
+var database="";
+function make_table()
+{
+document.getElementById("proper_output_table").innerHTML =database.reap_polling_object("outputable");
 
-
+}
 
 
 $(document).ready(function() 
@@ -565,7 +604,7 @@ $(document).ready(function()
 	//console.log(helper.createHTMLTable(student_array));
 	//document.getElementById("table_print").innerHTML =helper.createHTMLTable(student_array)
 	
-	var database = new Database(student_array);
+	database = new Database(student_array);
 	//console.log(database.get_attributes("first_name"));
 	//console.log(database.get_years());
 	//console.log(database.get_course_names());
@@ -575,8 +614,11 @@ $(document).ready(function()
 
 
 	document.getElementById("outputable").innerHTML =database.create_asker_object();
-	console.log(database.reap_polling_object("outputable"));
-	document.getElementById("proper_output_table").innerHTML =database.reap_polling_object("outputable");
+	//console.log(database.reap_polling_object("outputable"));
+
+	
+
+	
 	//database.see_if_student_has_course_in_year(obj1,"2013","b");
 	//console.log(database.get_all_courses_in_year(student_array,"2013"));
 	//helper.getStudentListForCourse(student_array,"2013","AlgorithmsI");

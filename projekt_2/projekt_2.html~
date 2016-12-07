@@ -86,22 +86,11 @@
 	<h3>Tabelka obiektów z JSON: studenci</h3>
 		
 		<div id ="table_print"></div>
-		<div class ="dropdown">
-		<ul>
-			<li>"1"</li>
-			<ul>
-				<li>"1.1"</li>
-				<li>"1.2"</li>
-				<ul>
-					<li>"1.2.1"</li>
-					<li>"1.2.2"</li>
-				</ul>
-
-			</ul>
-			<li>"2"</li>
-		</ul>
-		</div>
+		<div id="outputable"></div>
+		<div id="proper_output_table"></div>
 	</div>
+
+	
 
 
 	

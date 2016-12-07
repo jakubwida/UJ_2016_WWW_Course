@@ -21,6 +21,30 @@ document.getElementById("przyklad_2").style.backgroundColor="blue";
 	}
 
 
+function intersect_safe(a, b)
+{
+  var ai=0, bi=0;
+  var result = [];
+
+  while( ai < a.length && bi < b.length )
+  {
+     if      (a[ai] < b[bi] ){ ai++; }
+     else if (a[ai] > b[bi] ){ bi++; }
+     else /* they're equal */
+     {
+       result.push(a[ai]);
+       ai++;
+       bi++;
+     }
+  }
+
+  return result;
+}
+
+
+
+
+
 
 function getObjectFromJSON(filename)
 	{
@@ -34,6 +58,7 @@ function getObjectFromJSON(filename)
 	$.ajaxSetup({async: true});	
 	return output;
 	}
+
 
 
 function Helper()
@@ -221,7 +246,7 @@ function Helper()
 		{
 		var self=this;
 		var row =""
-			$.each(course_obj,function(key,value)
+			$.each(year,function(key,value)
 				{
 				row = row+"<td>"+key+self.createSubjectRow(value)+"</td>"
 				}
@@ -303,6 +328,259 @@ function Helper()
 	
 
 
+
+
+
+
+function Database(student_array)
+	{
+	var self=this;
+	this.student_array=student_array;
+	this.get_attributes=function(attr_name)
+		{
+		output=[];
+		$.each(student_array,function(index,value)
+			{
+			output.push(value[attr_name]);
+			});
+		return output;
+		};
+	this.get_years=function()
+		{
+		output=[];
+		var helper = new Helper()
+		$.each(student_array,function(index,value)
+			{
+			var yearlist = helper._getCourseYearList(value);
+			$.each(yearlist, function(i, element)
+				{
+    				if($.inArray(element, output) === -1) output.push(element);
+				});	
+			});
+		return output;
+		};
+	this.get_course_names=function()
+		{
+		output=[];
+		var helper = new Helper()
+		$.each(student_array,function(index,value)
+			{
+			
+			$.each(value["courses"],function(key,value2)
+				{
+					$.each(value2, function(i, element)
+						{
+    						if($.inArray(i, output) === -1) output.push(i);
+						});
+				});
+	
+			});
+		return output;
+		};
+	this.get_course_names=function()
+		{
+		output=[];
+		var helper = new Helper()
+		$.each(student_array,function(index,value)
+			{
+			
+			$.each(value["courses"],function(key,value2)
+				{
+					$.each(value2, function(i, element)
+						{
+    						if($.inArray(i, output) === -1) output.push(i);
+						});
+				});
+	
+			});
+		return output;
+		};
+	//tworzy htmlowy obiekt z checkboxami na lata studentow itp
+	this.create_asker_object = function()
+		{
+		var out ="<ul>";
+
+	
+		var year_list = self.get_years();
+		var year="<li>lata <ul>";
+		$.each(year_list,function(index,value)
+			{
+			year=year+"<li><label class='year'><input type='checkbox' checked>"+value+"</label></li>";
+			});
+		year=year+"</ul></li>"
+		out= out+year;
+	
+		var course_list = self.get_course_names();
+		var courses="<li>kursy <ul>";
+		$.each(course_list,function(index,value)
+			{
+			courses=courses+"<li><label class='course'><input type='checkbox' checked>"+value+"</label></li>";
+			});
+		courses=courses+"</ul></li>"
+		out= out+courses;
+
+		var grades="<li>oceny <ul>";
+		grades=grades+"<li><label class='grade'><input type='checkbox' checked>cwiczenia</label></li>";
+		grades=grades+"<li><label class='grade'><input type='checkbox' checked>wyklad</label></li>";
+		grades=grades+"<li><label class='grade'><input type='checkbox' checked>srednia</label></li>";
+		grades=grades+"</ul></li>"
+		out= out+grades;		
+
+		
+		out=out+"</ul>"
+		return out;
+		};
+
+
+	this.get_all_courses_in_year = function(student_list, year)
+		{
+		var course_list=[];
+		$.each(student_list,function(key,value)
+			{
+			students_courses=value.courses[year];
+			$.each(students_courses, function(i, element)
+						{
+    						if($.inArray(i, course_list) === -1) course_list.push(i);
+						});
+			});
+		return course_list;
+		};
+	
+	this.students_grades_to_table_row= function(student,year,course,do_exercises,do_lectures,do_average)
+		{
+		//console.log("ayayay:"+student.last_name,year,course );
+		var mini_help=function(argument)
+			{
+			if (argument==null)
+				{return "<td></td>"}
+			else if(argument.length==2)
+				{return "<td>"+argument[0]+","+argument[1]+"</td>";}
+			else
+				{return"<td>"+argument+"</td>";}
+			};
+		out ="";
+		if(typeof student.courses[year][course] === 'undefined')
+			{grades.exercises =null; grades.lecture=null;}
+		else
+		grades = student.courses[year][course].grades;
+		if(do_exercises)
+			{
+			out = out+mini_help(grades.exercices);
+			}
+		if(do_lectures)
+			{
+			out = out+mini_help(grades.lecture);
+			}
+
+		return out;	
+		};
+	//zjada (po id) stworzony wczesniej obiekt, tworzy tabelke z danymi
+	this.reap_polling_object = function(object_id)
+		{
+		year_list = $.makeArray($("#"+object_id+" .year").map(function()
+			{
+			if(this.childNodes[0].checked)
+				{return this.textContent;}
+			}));
+		
+
+		console.log(year_list);
+
+
+
+		course_list = $.makeArray($("#"+object_id+" .course").map(function()
+			{
+			if(this.childNodes[0].checked)
+				{return this.textContent;}
+			}));
+		console.log(course_list);
+		grade_list = $.makeArray($("#"+object_id+" .grade").map(function()
+			{
+			if(this.childNodes[0].checked)
+				{return this.textContent;}
+			}));
+		console.log(grade_list);	
+		
+		number_of_final_cols=2;
+		
+		
+
+		
+		
+		//todo- poczatek
+		var out="<table><thead></thead> <tbody>"
+		var year_row="<tr>";
+		var course_row="<tr>";
+		var student_rows=[];
+		
+		$.each(self.student_array,function(index,value)
+					{
+					student_rows.push("<tr>");
+					//console.log("what"+value.last_name);
+					});
+		
+		$.each(year_list,function(index,value)
+			{
+			console.log("pre course list:"+course_list);
+			year_course_list = self.get_all_courses_in_year(self.student_array,value);
+
+
+
+			result_course_list=intersect_safe(year_course_list,course_list);
+
+
+			console.log("course list:"+result_course_list);
+
+			year_row = year_row+"<td colspan='"+result_course_list.length*number_of_final_cols+"'>"+value+"</td>";
+			$.each(result_course_list,function(index_2,value_2)
+				{
+					//students_grades_to_table_row -> tworz abele ktora tutaj wpada
+				course_row= course_row+"<td colspan='"+number_of_final_cols+"'>"+value_2+"</td>"
+				$.each(self.student_array,function(index_3,value_3)
+					{
+					student_rows[index_3]=student_rows[index_3]+self.students_grades_to_table_row(value_3,value,value_2,1,1,0);
+					//console.log(student_rows[index_3]);
+					});
+				});			
+			});
+		
+		//console.log(student_rows);
+		year_row=year_row+"</tr>";
+		course_row=course_row+"</tr>";
+		
+		out = out + year_row;
+		out = out + course_row;
+		$.each(student_rows,function(index,value)
+			{
+			console.log("watu fuko "+value);
+			out=out+value+"</tr>";
+			});
+
+
+		out =out+"</tbody></table>"
+		return out;
+		//todo- koniec
+
+		//todo: to jest bliskie dzialania. jedyny problem ktory nie jest ozwiazany:
+		//nie wiadomo jak dokladnie zorganizowac przyciski tak zeby przynajmniej 
+		//jeden byl wcisniety (te co do wybierania czy to lecture excercise czy srednia)
+		//no i podpisy jeszcze, ale to prawie bangla
+		
+	
+		//almost works
+		};
+	
+	}
+
+
+var database="";
+function make_table()
+{
+document.getElementById("proper_output_table").innerHTML =database.reap_polling_object("outputable");
+
+}
+
+
 $(document).ready(function() 
     { 
         $("#myTable").tablesorter();
@@ -323,13 +601,33 @@ $(document).ready(function()
 
 
 	
-	console.log(helper.createHTMLTable(student_array));
-	document.getElementById("table_print").innerHTML =helper.createHTMLTable(student_array)
+	//console.log(helper.createHTMLTable(student_array));
+	//document.getElementById("table_print").innerHTML =helper.createHTMLTable(student_array)
+	
+	database = new Database(student_array);
+	//console.log(database.get_attributes("first_name"));
+	//console.log(database.get_years());
+	//console.log(database.get_course_names());
+	//console.log(database.create_asker_object());
+
+	//console.log(database.students_grades_to_table_row(obj1,"2013","BasicPhysicsI",1,0,0));
+
+
+	document.getElementById("outputable").innerHTML =database.create_asker_object();
+	//console.log(database.reap_polling_object("outputable"));
+
 	
 
+	
+	//database.see_if_student_has_course_in_year(obj1,"2013","b");
+	//console.log(database.get_all_courses_in_year(student_array,"2013"));
 	//helper.getStudentListForCourse(student_array,"2013","AlgorithmsI");
 	//console.log(new_array[0].last_name);
     } 
 ); 
+
+
+
+
 
 
