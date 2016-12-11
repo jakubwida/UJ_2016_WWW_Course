@@ -43,6 +43,19 @@ function intersect_safe(a, b)
 
 
 
+function basic_intersect(a,b)
+	{
+	var out = [];
+	$.each(a,function(index,value)
+		{
+		if($.inArray(value,b)!=(-1))
+			{
+			out.push(value);
+			}
+		});
+		return out;	
+	}
+
 
 
 
@@ -592,14 +605,146 @@ function Database(student_array)
 	
 		//almost works
 		};
+
+
+
+
+
+
+this.reap_polling_object_2 = function(object_id)
+		{
+
+		console.log("table creation");
+
+
+		year_list = $.makeArray($("#"+object_id+" .year").map(function()
+			{
+			if(this.childNodes[0].checked)
+				{return this.textContent;}
+			}));
+		
+
+		console.log("reaped: years: "+year_list);
+
+
+
+		course_list = $.makeArray($("#"+object_id+" .course").map(function()
+			{
+			if(this.childNodes[0].checked)
+				{return this.textContent;}
+			}));
+		console.log("reaped: courses: "+course_list);
+		grade_list = $.makeArray($("#"+object_id+" .grade").map(function()
+			{
+			if(this.childNodes[0].checked)
+				{return this.textContent;}
+			}));
+		console.log("reaped: grades: "+grade_list);	
+		
+		number_of_final_cols=2;
+		
+		
+
+		var initial_table="";
+		var latter_tables=[];
+
+
+		//tabelka wstepna
+		initial_table="<table><thead></thead> <tbody>"
+		initial_table=initial_table+"<tr><td>nr.</td><td>imie</td><td>nazwisko</td><td>indeks</td><td>data urodzenia</td><td>rok studiow</td></tr>";
+		$.each(self.student_array,function(index,value)
+			{
+			initial_table=initial_table+"<tr><td>"+index+"</td><td>"+value.first_name+"</td>"+"<td>"+value.last_name+"</td>"+"<td>"+value.index+"</td>"+"<td>"+value.birth_date+"</td>"+"<td>"+value.year_of_study+"</td>";
+					
+			});
+		initial_table=initial_table+"</tbody></table>"
+		//koniec tabelki wstepnej
+
+		//tabelki kolejne
+		var do_exc=0;
+		var do_lec=0;
+		if($.inArray("cwiczenia",grade_list)!=(-1))
+			{do_exc=1;}
+		if($.inArray("wyklad",grade_list)!=(-1))
+			{do_lec=1;}
+		number_of_final_cols=do_exc+do_lec;
+			//kolumny ost rzedu
+		console.log("do exc, do lec:"+do_exc+" "+do_lec);
+
+
+		
+		var output="";
+		var year_row="";
+		var course_row="";
+		var lec_ex_row="";
+		var student_grade_rows=[];
+
+		
+
+		$.each(year_list,function(index,value)
+			{
+			console.log("single table: "+value)
+			output="";
+			year_row="";
+			course_row="";
+			lec_ex_row="";
+			student_grade_rows=[];
+			$.each(self.student_array,function(index,value)
+				{
+				student_grade_rows.push("<tr><td>"+index+"</td>");
+				});
+
+
+
+			output ="<table><thead></thead> <tbody>";
 	
+			year_course_list = self.get_all_courses_in_year(self.student_array,value);
+			result_course_list=basic_intersect(year_course_list,course_list);
+
+			year_row="<tr><td rowspan='3'>nr.</td><td colspan = '"+ result_course_list.length * number_of_final_cols + "'>"+value+"</td></tr>";
+			console.log("initial_course_list:"+year_course_list);
+			console.log("result_course_list:"+result_course_list);
+
+			course_row="<tr>";
+			$.each(result_course_list,function(index_2,value_2)
+				{
+				course_row= course_row+"<td colspan='"+number_of_final_cols+"'>"+value_2+"</td>"
+				lec_ex_row=lec_ex_row + self.grades_header(do_exc,do_lec);
+				$.each(self.student_array,function(index_3,value_3)
+					{
+					student_grade_rows[index_3]=student_grade_rows[index_3]+self.students_grades_to_table_row(value_3,value,value_2,do_exc,do_lec,0);
+					});
+				});
+			course_row=course_row+"</tr>";
+
+			output =output+year_row+course_row+lec_ex_row;
+			$.each(student_grade_rows,function(index,value)
+				{
+				output=output+value;
+				});
+			output = output+"</tbody></table>";
+			latter_tables.push(output);
+			});
+		var returned="<ul>";
+		returned= returned+"<li>"+initial_table+"</li>";
+		$.each(latter_tables,function(index,value)
+			{
+			returned =returned+"<li>"+value+"</li>";
+			});
+		returned = returned+"</ul>";
+		return returned;
+
+
+
+		
+		};	
 	}
 
 
 var database="";
 function make_table()
 {
-document.getElementById("proper_output_table").innerHTML =database.reap_polling_object("asker");
+document.getElementById("proper_output_table").innerHTML =database.reap_polling_object_2("asker");
 
 }
 
