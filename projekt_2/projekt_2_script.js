@@ -474,6 +474,19 @@ function Database(student_array)
 
 		return out;	
 		};
+	this.grades_header = function(exercises,lectures)
+	{
+		var out ="";
+		if(exercises)
+			{
+			out =out+"<td>exc:</td>"
+			}
+		if(lectures)
+			{
+			out =out+"<td>lec:</td>"
+			}
+		return out;
+	};
 	//zjada (po id) stworzony wczesniej obiekt, tworzy tabelke z danymi
 	this.reap_polling_object = function(object_id)
 		{
@@ -509,13 +522,20 @@ function Database(student_array)
 		
 		//todo- poczatek
 		var out="<table><thead></thead> <tbody>"
-		var year_row="<tr>";
+		var year_row="<tr><td rowspan='3'>first_name</td><td rowspan='3'>last_name</td><td rowspan='3'>index</td><td rowspan='3'>birth_date</td>";
 		var course_row="<tr>";
+		var course_header="<tr>"
 		var student_rows=[];
-		
+		var do_exc =0;
+		var do_lec=0;
+		if($.inArray("cwiczenia",grade_list)!=(-1))
+			{do_exc=1;}
+		if($.inArray("wyklad",grade_list)!=(-1))
+			{do_lec=1;}
+		number_of_final_cols=do_exc+do_lec;
 		$.each(self.student_array,function(index,value)
 					{
-					student_rows.push("<tr>");
+					student_rows.push("<tr><td>"+value.first_name+"</td>"+"<td>"+value.last_name+"</td>"+"<td>"+value.index+"</td>"+"<td>"+value.birth_date+"</td>");
 					//console.log("what"+value.last_name);
 					});
 		
@@ -536,9 +556,10 @@ function Database(student_array)
 				{
 					//students_grades_to_table_row -> tworz abele ktora tutaj wpada
 				course_row= course_row+"<td colspan='"+number_of_final_cols+"'>"+value_2+"</td>"
+				course_header=course_header + self.grades_header(do_exc,do_lec);
 				$.each(self.student_array,function(index_3,value_3)
 					{
-					student_rows[index_3]=student_rows[index_3]+self.students_grades_to_table_row(value_3,value,value_2,1,1,0);
+					student_rows[index_3]=student_rows[index_3]+self.students_grades_to_table_row(value_3,value,value_2,do_exc,do_lec,0);
 					//console.log(student_rows[index_3]);
 					});
 				});			
@@ -547,9 +568,11 @@ function Database(student_array)
 		//console.log(student_rows);
 		year_row=year_row+"</tr>";
 		course_row=course_row+"</tr>";
-		
+		course_header =course_header+"</tr>"
+
 		out = out + year_row;
 		out = out + course_row;
+		out = out + course_header;
 		$.each(student_rows,function(index,value)
 			{
 			console.log("watu fuko "+value);
@@ -576,7 +599,7 @@ function Database(student_array)
 var database="";
 function make_table()
 {
-document.getElementById("proper_output_table").innerHTML =database.reap_polling_object("outputable");
+document.getElementById("proper_output_table").innerHTML =database.reap_polling_object("asker");
 
 }
 
@@ -613,7 +636,7 @@ $(document).ready(function()
 	//console.log(database.students_grades_to_table_row(obj1,"2013","BasicPhysicsI",1,0,0));
 
 
-	document.getElementById("outputable").innerHTML =database.create_asker_object();
+	document.getElementById("asker").innerHTML =database.create_asker_object();
 	//console.log(database.reap_polling_object("outputable"));
 
 	
