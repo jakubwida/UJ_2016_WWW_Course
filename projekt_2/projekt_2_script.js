@@ -342,7 +342,14 @@ function Helper()
 
 
 
+function change_view(object)
+{
 
+if(object.parentNode.className=="order1")
+	{object.parentNode.className="order1_open";}
+else
+	{object.parentNode.className="order1";}
+}
 
 
 function Database(student_array)
@@ -415,7 +422,7 @@ function Database(student_array)
 
 	
 		var year_list = self.get_years();
-		var year="<li>lata <ul>";
+		var year="<li class='order1' ><p onclick='change_view(this)'>lata </p><ul>";
 		$.each(year_list,function(index,value)
 			{
 			year=year+"<li><label class='year'><input type='checkbox' checked>"+value+"</label></li>";
@@ -424,7 +431,7 @@ function Database(student_array)
 		out= out+year;
 	
 		var course_list = self.get_course_names();
-		var courses="<li>kursy <ul>";
+		var courses="<li class='order1' ><p onclick='change_view(this)'>kursy</p> <ul>";
 		$.each(course_list,function(index,value)
 			{
 			courses=courses+"<li><label class='course'><input type='checkbox' checked>"+value+"</label></li>";
@@ -432,14 +439,13 @@ function Database(student_array)
 		courses=courses+"</ul></li>"
 		out= out+courses;
 
-		var grades="<li>oceny <ul>";
+		var grades="<li class='order1' ><p onclick='change_view(this)'>oceny</p> <ul>";
 		grades=grades+"<li><label class='grade'><input type='checkbox' checked>cwiczenia</label></li>";
 		grades=grades+"<li><label class='grade'><input type='checkbox' checked>wyklad</label></li>";
-		grades=grades+"<li><label class='grade'><input type='checkbox' checked>srednia</label></li>";
+		
 		grades=grades+"</ul></li>"
 		out= out+grades;		
-
-		
+		out = out + "<li class='order1' id='regbutton'><p onclick='make_table()'>utworz tabele</p></li>"
 		out=out+"</ul>"
 		return out;
 		};
@@ -492,123 +498,16 @@ function Database(student_array)
 		var out ="";
 		if(exercises)
 			{
-			out =out+"<td>exc:</td>"
+			out =out+"<th>exc:</th>"
 			}
 		if(lectures)
 			{
-			out =out+"<td>lec:</td>"
+			out =out+"<th>lec:</th>"
 			}
 		return out;
 	};
 	//zjada (po id) stworzony wczesniej obiekt, tworzy tabelke z danymi
-	this.reap_polling_object = function(object_id)
-		{
-		year_list = $.makeArray($("#"+object_id+" .year").map(function()
-			{
-			if(this.childNodes[0].checked)
-				{return this.textContent;}
-			}));
-		
-
-		console.log(year_list);
-
-
-
-		course_list = $.makeArray($("#"+object_id+" .course").map(function()
-			{
-			if(this.childNodes[0].checked)
-				{return this.textContent;}
-			}));
-		console.log(course_list);
-		grade_list = $.makeArray($("#"+object_id+" .grade").map(function()
-			{
-			if(this.childNodes[0].checked)
-				{return this.textContent;}
-			}));
-		console.log(grade_list);	
-		
-		number_of_final_cols=2;
-		
-		
-
-		
-		
-		//todo- poczatek
-		var out="<table><thead></thead> <tbody>"
-		var year_row="<tr><td rowspan='3'>first_name</td><td rowspan='3'>last_name</td><td rowspan='3'>index</td><td rowspan='3'>birth_date</td>";
-		var course_row="<tr>";
-		var course_header="<tr>"
-		var student_rows=[];
-		var do_exc =0;
-		var do_lec=0;
-		if($.inArray("cwiczenia",grade_list)!=(-1))
-			{do_exc=1;}
-		if($.inArray("wyklad",grade_list)!=(-1))
-			{do_lec=1;}
-		number_of_final_cols=do_exc+do_lec;
-		$.each(self.student_array,function(index,value)
-					{
-					student_rows.push("<tr><td>"+value.first_name+"</td>"+"<td>"+value.last_name+"</td>"+"<td>"+value.index+"</td>"+"<td>"+value.birth_date+"</td>");
-					//console.log("what"+value.last_name);
-					});
-		
-		$.each(year_list,function(index,value)
-			{
-			console.log("pre course list:"+course_list);
-			year_course_list = self.get_all_courses_in_year(self.student_array,value);
-
-
-
-			result_course_list=intersect_safe(year_course_list,course_list);
-
-
-			console.log("course list:"+result_course_list);
-
-			year_row = year_row+"<td colspan='"+result_course_list.length*number_of_final_cols+"'>"+value+"</td>";
-			$.each(result_course_list,function(index_2,value_2)
-				{
-					//students_grades_to_table_row -> tworz abele ktora tutaj wpada
-				course_row= course_row+"<td colspan='"+number_of_final_cols+"'>"+value_2+"</td>"
-				course_header=course_header + self.grades_header(do_exc,do_lec);
-				$.each(self.student_array,function(index_3,value_3)
-					{
-					student_rows[index_3]=student_rows[index_3]+self.students_grades_to_table_row(value_3,value,value_2,do_exc,do_lec,0);
-					//console.log(student_rows[index_3]);
-					});
-				});			
-			});
-		
-		//console.log(student_rows);
-		year_row=year_row+"</tr>";
-		course_row=course_row+"</tr>";
-		course_header =course_header+"</tr>"
-
-		out = out + year_row;
-		out = out + course_row;
-		out = out + course_header;
-		$.each(student_rows,function(index,value)
-			{
-			console.log("watu fuko "+value);
-			out=out+value+"</tr>";
-			});
-
-
-		out =out+"</tbody></table>"
-		return out;
-		//todo- koniec
-
-		//todo: to jest bliskie dzialania. jedyny problem ktory nie jest ozwiazany:
-		//nie wiadomo jak dokladnie zorganizowac przyciski tak zeby przynajmniej 
-		//jeden byl wcisniety (te co do wybierania czy to lecture excercise czy srednia)
-		//no i podpisy jeszcze, ale to prawie bangla
-		
 	
-		//almost works
-		};
-
-
-
-
 
 
 this.reap_polling_object_2 = function(object_id)
@@ -651,7 +550,7 @@ this.reap_polling_object_2 = function(object_id)
 
 		//tabelka wstepna
 		initial_table="<table><thead></thead> <tbody>"
-		initial_table=initial_table+"<tr><td>nr.</td><td>imie</td><td>nazwisko</td><td>indeks</td><td>data urodzenia</td><td>rok studiow</td></tr>";
+		initial_table=initial_table+"<tr><th>nr.</th><th>imie</th><th>nazwisko</th><th>indeks</th><th>data urodzenia</th><th>rok studiow</th></tr>";
 		$.each(self.student_array,function(index,value)
 			{
 			initial_table=initial_table+"<tr><td>"+index+"</td><td>"+value.first_name+"</td>"+"<td>"+value.last_name+"</td>"+"<td>"+value.index+"</td>"+"<td>"+value.birth_date+"</td>"+"<td>"+value.year_of_study+"</td>";
@@ -701,14 +600,14 @@ this.reap_polling_object_2 = function(object_id)
 			year_course_list = self.get_all_courses_in_year(self.student_array,value);
 			result_course_list=basic_intersect(year_course_list,course_list);
 
-			year_row="<tr><td rowspan='3'>nr.</td><td colspan = '"+ result_course_list.length * number_of_final_cols + "'>"+value+"</td></tr>";
+			year_row="<tr><th rowspan='3'>nr.</th><th colspan = '"+ result_course_list.length * number_of_final_cols + "'>"+value+"</th></tr>";
 			console.log("initial_course_list:"+year_course_list);
 			console.log("result_course_list:"+result_course_list);
 
 			course_row="<tr>";
 			$.each(result_course_list,function(index_2,value_2)
 				{
-				course_row= course_row+"<td colspan='"+number_of_final_cols+"'>"+value_2+"</td>"
+				course_row= course_row+"<th colspan='"+number_of_final_cols+"'>"+value_2+"</th>"
 				lec_ex_row=lec_ex_row + self.grades_header(do_exc,do_lec);
 				$.each(self.student_array,function(index_3,value_3)
 					{
@@ -751,7 +650,7 @@ document.getElementById("proper_output_table").innerHTML =database.reap_polling_
 
 $(document).ready(function() 
     { 
-        $("#myTable").tablesorter();
+        
 
 	var obj1=getObjectFromJSON("JSON_Dane/Jan_Kowalski.json");
 	var obj2=getObjectFromJSON("JSON_Dane/Andrzej_Nowak.json");

@@ -27,16 +27,30 @@
 
 .output_table ul{list-style-type:none; overflow:hidden;  margin:0px;padding:0px;}
 .output_table li {float:left;  display:inline-block; padding:10px;text-align:center; }
+.output_table td,th {padding:8px;}
+.output_table table {border-collapse:collapse;}
+.output_table th {background-color:rgb(20,20,20); color:white; border-color:rgb(150,150,150)}
 
 
 
+#asker .order1 ul{display:none; }
+#asker .order1_open ul{display:block; vertical-align:top;  position: absolute; padding-left:0; border-style:solid; background-color:rgb(230,230,230); width:150px; margin-left:-3px; margin:auto}
+
+#asker .order1_open li{ padding:5px; }
+#asker .order1_open li:hover{ background-color:rgb(240,240,240);}
+
+#asker .order1_open {display:inline-block;  width:150px; vertical-align:top; border-style:solid; background-color:rgb(240,240,240); }
+#asker .order1 {display:inline-block;  width:150px;vertical-align:top; border-style:solid;}
 
 
 
-.show()
-{
-display:none;
-}
+#asker .order1_open p{text-align:center}
+#asker .order1 p{text-align:center}
+
+
+#asker li {list-style-type:none;}
+
+#regbutton {  background-color:white;}
 
 
 
