@@ -1,26 +1,5 @@
 
 
-function button_1()
-	{
-	window.alert("Oto Alert");
-	console.log("hello");
-	}
-
-function button_red()
-	{
-	document.getElementById("przyklad_2").style.backgroundColor="red";
-	
-	}
-function button_green()
-	{
-document.getElementById("przyklad_2").style.backgroundColor="green";
-	}
-function button_blue()
-	{
-document.getElementById("przyklad_2").style.backgroundColor="blue";
-	}
-
-
 function intersect_safe(a, b)
 {
   var ai=0, bi=0;
@@ -30,7 +9,7 @@ function intersect_safe(a, b)
   {
      if      (a[ai] < b[bi] ){ ai++; }
      else if (a[ai] > b[bi] ){ bi++; }
-     else /* they're equal */
+     else 
      {
        result.push(a[ai]);
        ai++;
@@ -237,7 +216,7 @@ function Helper()
 					}	
 				});
 			});
-		console.log(proper_courses);
+		//console.log(proper_courses);
 		var total=0;
 		$.each(proper_courses,function(index,value)
 			{
@@ -333,13 +312,7 @@ function Helper()
 	}
 
 
-	//co trzeba zrobic: proste menu ktore bedzie decydowac co bedzie wypisane
-	//bedzie ono wypluwalo prosta tabelke w zaleznosci od zadanych warunkow
-	//typu: wyswietl srednia dla roku
-	//wyswietl studentow majacych algorytmy
-	//takie cos, co uzywa tych wcesniejszych funkcji
 	
-
 
 
 function change_view(object)
@@ -506,14 +479,14 @@ function Database(student_array)
 			}
 		return out;
 	};
-	//zjada (po id) stworzony wczesniej obiekt, tworzy tabelke z danymi
+	
 	
 
 
 this.reap_polling_object_2 = function(object_id)
 		{
 
-		console.log("table creation");
+		//console.log("table creation");
 
 
 		year_list = $.makeArray($("#"+object_id+" .year").map(function()
@@ -523,7 +496,7 @@ this.reap_polling_object_2 = function(object_id)
 			}));
 		
 
-		console.log("reaped: years: "+year_list);
+		//console.log("reaped: years: "+year_list);
 
 
 
@@ -532,13 +505,13 @@ this.reap_polling_object_2 = function(object_id)
 			if(this.childNodes[0].checked)
 				{return this.textContent;}
 			}));
-		console.log("reaped: courses: "+course_list);
+		//console.log("reaped: courses: "+course_list);
 		grade_list = $.makeArray($("#"+object_id+" .grade").map(function()
 			{
 			if(this.childNodes[0].checked)
 				{return this.textContent;}
 			}));
-		console.log("reaped: grades: "+grade_list);	
+		//console.log("reaped: grades: "+grade_list);	
 		
 		number_of_final_cols=2;
 		
@@ -568,7 +541,7 @@ this.reap_polling_object_2 = function(object_id)
 			{do_lec=1;}
 		number_of_final_cols=do_exc+do_lec;
 			//kolumny ost rzedu
-		console.log("do exc, do lec:"+do_exc+" "+do_lec);
+		//console.log("do exc, do lec:"+do_exc+" "+do_lec);
 
 
 		
@@ -582,7 +555,7 @@ this.reap_polling_object_2 = function(object_id)
 
 		$.each(year_list,function(index,value)
 			{
-			console.log("single table: "+value)
+			//console.log("single table: "+value)
 			output="";
 			year_row="";
 			course_row="";
@@ -601,8 +574,8 @@ this.reap_polling_object_2 = function(object_id)
 			result_course_list=basic_intersect(year_course_list,course_list);
 
 			year_row="<tr><th rowspan='3'>nr.</th><th colspan = '"+ result_course_list.length * number_of_final_cols + "'>"+value+"</th></tr>";
-			console.log("initial_course_list:"+year_course_list);
-			console.log("result_course_list:"+result_course_list);
+			//console.log("initial_course_list:"+year_course_list);
+			//console.log("result_course_list:"+result_course_list);
 
 			course_row="<tr>";
 			$.each(result_course_list,function(index_2,value_2)
@@ -659,37 +632,10 @@ $(document).ready(function()
 	var student_array=[obj1,obj2,obj3];
 	var helper = new Helper();
 	var new_array= helper.getStudentList(student_array);
-	//console.log(helper._getCourseYearList(obj1));
-	//console.log(helper._getCourseList(obj1,"2013"));
-	//console.log(helper.getStudentListForCourse(student_array,"2013","AlgorithmsI")[0]);
-	//console.log(helper.getAverageForStudentInYear(obj1,"2013"));
-	//console.log(helper.getAverageForStudentAllYears(obj1));
-	//console.log(helper.getAverageForCourse(student_array,"2013","AlgorithmsI"));
 
-
-	
-	//console.log(helper.createHTMLTable(student_array));
-	//document.getElementById("table_print").innerHTML =helper.createHTMLTable(student_array)
-	
 	database = new Database(student_array);
-	//console.log(database.get_attributes("first_name"));
-	//console.log(database.get_years());
-	//console.log(database.get_course_names());
-	//console.log(database.create_asker_object());
-
-	//console.log(database.students_grades_to_table_row(obj1,"2013","BasicPhysicsI",1,0,0));
-
-
 	document.getElementById("asker").innerHTML =database.create_asker_object();
-	//console.log(database.reap_polling_object("outputable"));
 
-	
-
-	
-	//database.see_if_student_has_course_in_year(obj1,"2013","b");
-	//console.log(database.get_all_courses_in_year(student_array,"2013"));
-	//helper.getStudentListForCourse(student_array,"2013","AlgorithmsI");
-	//console.log(new_array[0].last_name);
     } 
 ); 
 
