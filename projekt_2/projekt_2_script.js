@@ -450,11 +450,12 @@ function Database(student_array)
 			else
 				{return"<td>"+argument+"</td>";}
 			};
-		out ="";
+		var out ="";
+		var grades ="";
 		if(typeof student.courses[year][course] === 'undefined')
 			{grades.exercises =null; grades.lecture=null;}
 		else
-		grades = student.courses[year][course].grades;
+		 grades = student.courses[year][course].grades;
 		if(do_exercises)
 			{
 			out = out+mini_help(grades.exercices);
@@ -462,8 +463,10 @@ function Database(student_array)
 		if(do_lectures)
 			{
 			out = out+mini_help(grades.lecture);
+			
 			}
-
+		//if(student.first_name=="Jan" && year==2013 && course=="AlgorithmsI")
+			//{console.log(student.first_name+" "+year+" "+course+" "+out+" "+do_lectures+" "+grades);}
 		return out;	
 		};
 	this.grades_header = function(exercises,lectures)
