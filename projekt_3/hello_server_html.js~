@@ -1,0 +1,26 @@
+const http = require('http');
+
+const hostname = '127.0.0.1';
+const port = 3000;
+
+const server = http.createServer((req, res) =>
+	{
+	res.statusCode = 200;
+	res.setHeader('Content-Type', 'text/plain');
+	res.write('<!doctype=html>\n' + 
+    '\n<title>hello world node.js</title>\n' + 
+	'<head></head>\n'+
+	'<body>\n'+
+	'<h3> hello world node js </h3>\n'+
+	'<p>this is a paragraph</p>\n'+
+	'</body>\n'+
+	'\n\n'
+    		);
+	res.end();
+	});
+
+server.listen(port, hostname, ()=>
+	{
+	console.log("Server running at http://${hostname}:${port}/");	
+	
+	});
